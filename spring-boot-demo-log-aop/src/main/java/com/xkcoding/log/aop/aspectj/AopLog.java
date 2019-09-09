@@ -53,11 +53,16 @@ public class AopLog {
 		HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
 		log.info("【请求 URL】：{}", request.getRequestURL());
-		log.info("【请求 IP】：{}", request.getRemoteAddr());
+		log.info("【请求 IP】：{}", "0:0:0:0:0:0:0:1".equals(request.getRemoteAddr())?"127.0.0.1" : request.getRemoteAddr());
 		log.info("【请求类名】：{}，【请求方法名】：{}", point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
-
+		// 可以打印json请求
+		Object[] args = point.getArgs();
+		for (int i = 0; i < args.length; i++) {
+			log.info("【第{}个请求参数】：{}",i+1, args);
+		}
 		Map<String, String[]> parameterMap = request.getParameterMap();
-		log.info("【请求参数】：{}，", JSONUtil.toJsonStr(parameterMap));
+		// 只能打印非json请求
+		log.info("【请求参数】：{}", JSONUtil.toJsonStr(parameterMap));
 		Long start = System.currentTimeMillis();
 		request.setAttribute(START_TIME, start);
 	}
