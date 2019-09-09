@@ -10,15 +10,18 @@ spring:
     admin:
       client:
         # Spring Boot Admin 服务端地址
-        url: "http://localhost:8000/"
+        url: "http://127.0.0.1:8000/"
         instance:
           metadata:
             # 客户端端点信息的安全认证信息
             user.name: ${spring.security.user.name}
             user.password: ${spring.security.user.password}
+        # 对应server端的账号密码，不配置就监控不到这个client
+        username: ${spring.security.user.name}
+        password: ${spring.security.user.password}
   security:
     user:
-      name: xkcoding
+      name: admin
       password: 123456
 management:
   endpoint:
@@ -30,3 +33,9 @@ management:
       exposure:
         # 设置端点暴露的哪些内容，默认["health","info"]，设置"*"代表暴露所有可访问的端点
         include: "*"
+
+# info信息会显示到SBA的server端，这里取的是maven中的数据
+info:
+  version: "@version@"
+  groupId: "@groupId@"
+  artifactId: "@artifactId@"

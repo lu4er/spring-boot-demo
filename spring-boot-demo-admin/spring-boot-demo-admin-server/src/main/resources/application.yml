@@ -1,2 +1,10 @@
 server:
   port: 8000
+
+spring:
+  application:
+    name: spring-boot-demo-admin-server
+  security:
+    user:
+      name: "admin"
+      password: "123456"
