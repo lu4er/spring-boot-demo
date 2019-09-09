@@ -1,9 +1,12 @@
 package com.xkcoding.logback;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -23,6 +26,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringBootDemoLogbackApplication {
 
 	public static void main(String[] args) {
+//		MDC.put("traceId", UUID.randomUUID().toString());
 		ConfigurableApplicationContext context = SpringApplication.run(SpringBootDemoLogbackApplication.class, args);
 		int length = context.getBeanDefinitionNames().length;
 		log.trace("Spring boot启动初始化了 {} 个 Bean", length);

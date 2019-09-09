@@ -2,3 +2,8 @@ server:
   port: 8080
   servlet:
     context-path: /demo
+logging:
+  level:
+    # level下层的节点是个map
+    root: info
+    com.xkcoding.logback: debug
