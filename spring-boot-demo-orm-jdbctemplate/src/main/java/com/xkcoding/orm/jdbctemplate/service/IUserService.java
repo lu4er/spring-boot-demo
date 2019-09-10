@@ -26,6 +26,8 @@ public interface IUserService {
 	 */
 	Boolean save(User user);
 
+	Boolean batchSave(List<User> user);
+
 	/**
 	 * 删除用户
 	 *
@@ -59,4 +61,5 @@ public interface IUserService {
 	 */
 	List<User> getUser(User user);
 
+	Boolean batchDelete(Long[] ids);
 }

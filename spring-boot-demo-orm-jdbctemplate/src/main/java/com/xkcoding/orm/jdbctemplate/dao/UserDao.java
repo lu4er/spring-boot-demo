@@ -39,6 +39,10 @@ public class UserDao extends BaseDao<User, Long> {
 		return super.insert(user, true);
 	}
 
+	public Integer batchInsert(List<User> users) {
+		return super.batchInsert(users, true);
+	}
+
 	/**
 	 * 根据主键删除用户
 	 *

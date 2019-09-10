@@ -3,16 +3,14 @@ package com.xkcoding.orm.jdbctemplate.dao.base;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
 import com.xkcoding.orm.jdbctemplate.annotation.Column;
 import com.xkcoding.orm.jdbctemplate.annotation.Ignore;
 import com.xkcoding.orm.jdbctemplate.annotation.Pk;
 import com.xkcoding.orm.jdbctemplate.annotation.Table;
 import com.xkcoding.orm.jdbctemplate.constant.Const;
+import com.xkcoding.orm.jdbctemplate.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,6 +18,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,6 +77,29 @@ public class BaseDao<T, P> {
 		return jdbcTemplate.update(sql, values);
 	}
 
+	protected Integer batchInsert(List<T> users, boolean ignoreNull) {
+		T t = users.get(0);
+		//获取表名
+		String tableName = getTableName(t);
+		//获取字段列表
+		List<Field> fieldList = getField(t, ignoreNull);
+		//获取列
+		List<String> columnList = getColumns(fieldList);
+		//构造字段列
+		String columns = StrUtil.join(Const.SEPARATOR_COMMA, columnList);
+		// 构造占位符
+		String params = StrUtil.repeatAndJoin("?", columnList.size(), Const.SEPARATOR_COMMA);
+		// 构造值
+
+		List<Object[]> collect = users.stream().map(user -> getField(user, ignoreNull).stream().map(field -> ReflectUtil.getFieldValue(user, field)).toArray()).collect(Collectors.toList());
+
+		String sql = StrUtil.format("INSERT INTO {table} ({columns}) VALUES ({params})", Dict.create().set("table", tableName).set("columns", columns).set("params", params));
+		log.debug("【执行SQL】SQL：{}", sql);
+		log.debug("【执行SQL】参数：{}", JSONUtil.toJsonStr(collect));
+		int[] ints = jdbcTemplate.batchUpdate(sql, collect);
+		return 1;
+	}
+
 	/**
 	 * 通用根据主键删除
 	 *
@@ -89,6 +112,18 @@ public class BaseDao<T, P> {
 		log.debug("【执行SQL】SQL：{}", sql);
 		log.debug("【执行SQL】参数：{}", JSONUtil.toJsonStr(pk));
 		return jdbcTemplate.update(sql, pk);
+	}
+
+
+	public Integer batchDelete(P[] ids) {
+		String tableName = getTableName();
+		String params = StrUtil.repeatAndJoin("?", ids.length, Const.SEPARATOR_COMMA);
+		String sql = StrUtil.format("DELETE FROM {table} where id in ({params})", Dict.create().set("table", tableName).set("params",params));
+		log.debug("【执行SQL】SQL：{}", sql);
+		log.debug("【执行SQL】参数：{}", JSONUtil.toJsonStr(ids));
+
+		return jdbcTemplate.update(sql, (Object[]) ids);
+
 	}
 
 	/**
@@ -236,5 +271,4 @@ public class BaseDao<T, P> {
 		}
 		return filterField;
 	}
-
 }

@@ -38,9 +38,21 @@ public class UserController {
 		return Dict.create().set("code", save ? 200 : 500).set("msg", save ? "成功" : "失败").set("data", save ? user : null);
 	}
 
+	@PostMapping("/users")
+	public Dict batchSave(@RequestBody List<User> users){
+		Boolean b = userService.batchSave(users);
+		return Dict.create().set("code",b?200:500).set("msg",b?"成功":"失败");
+	}
+
 	@DeleteMapping("/user/{id}")
 	public Dict delete(@PathVariable Long id) {
 		Boolean delete = userService.delete(id);
+		return Dict.create().set("code", delete ? 200 : 500).set("msg", delete ? "成功" : "失败");
+	}
+
+	@DeleteMapping("/users")
+	public Dict batchDelete(@RequestBody Long[] ids) {
+		Boolean delete = userService.batchDelete(ids);
 		return Dict.create().set("code", delete ? 200 : 500).set("msg", delete ? "成功" : "失败");
 	}
 

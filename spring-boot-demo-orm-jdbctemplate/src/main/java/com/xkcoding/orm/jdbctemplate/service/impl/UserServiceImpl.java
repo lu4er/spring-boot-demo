@@ -53,6 +53,18 @@ public class UserServiceImpl implements IUserService {
 		return userDao.insert(user) > 0;
 	}
 
+	@Override
+	public Boolean batchSave(List<User> users) {
+		users.forEach(user -> {
+			String rawPass = user.getPassword();
+			String salt = IdUtil.simpleUUID();
+			String pass = SecureUtil.md5(rawPass + Const.SALT_PREFIX + salt);
+			user.setPassword(pass);
+			user.setSalt(salt);
+		});
+		return userDao.batchInsert(users)>0;
+	}
+
 	/**
 	 * 删除用户
 	 *
@@ -62,6 +74,11 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Boolean delete(Long id) {
 		return userDao.delete(id) > 0;
+	}
+
+	@Override
+	public Boolean batchDelete(Long[] ids) {
+		return userDao.batchDelete(ids) > 0;
 	}
 
 	/**
