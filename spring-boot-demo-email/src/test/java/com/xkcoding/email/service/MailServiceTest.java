@@ -38,7 +38,7 @@ public class MailServiceTest extends SpringBootDemoEmailApplicationTests {
      */
     @Test
     public void sendSimpleMail() {
-        mailService.sendSimpleMail("237497819@qq.com", "这是一封简单邮件", "这是一封普通的SpringBoot测试邮件");
+        mailService.sendSimpleMail("zhangjinzhi@shilupan.com", "这是一封简单邮件", "这是一封普通的SpringBoot测试邮件");
     }
 
     /**
@@ -54,7 +54,7 @@ public class MailServiceTest extends SpringBootDemoEmailApplicationTests {
         context.setVariable("url", "https://github.com/xkcoding/spring-boot-demo");
 
         String emailTemplate = templateEngine.process("welcome", context);
-        mailService.sendHtmlMail("237497819@qq.com", "这是一封模板HTML邮件", emailTemplate);
+        mailService.sendHtmlMail("zhangjinzhi@shilupan.com", "这是一封模板HTML邮件", emailTemplate);
     }
 
     /**
@@ -79,7 +79,7 @@ public class MailServiceTest extends SpringBootDemoEmailApplicationTests {
         context.setVariable("url", "https://github.com/xkcoding/spring-boot-demo");
 
         String emailTemplate = templateEngine.process("test", context);
-        mailService.sendHtmlMail("237497819@qq.com", "这是一封模板HTML邮件", emailTemplate);
+        mailService.sendHtmlMail("zhangjinzhi@shilupan.com", "这是一封模板HTML邮件", emailTemplate);
     }
 
     /**
@@ -90,7 +90,7 @@ public class MailServiceTest extends SpringBootDemoEmailApplicationTests {
     @Test
     public void sendAttachmentsMail() throws MessagingException {
         URL resource = ResourceUtil.getResource("static/xkcoding.png");
-        mailService.sendAttachmentsMail("237497819@qq.com", "这是一封带附件的邮件", "邮件中有附件，请注意查收！", resource.getPath());
+        mailService.sendAttachmentsMail("zhangjinzhi@shilupan.com", "这是一封带附件的邮件", "邮件中有附件，请注意查收！", resource.getPath());
     }
 
     /**
@@ -103,6 +103,6 @@ public class MailServiceTest extends SpringBootDemoEmailApplicationTests {
         String rscId = "xkcoding";
         String content = "<html><body>这是带静态资源的邮件<br/><img src=\'cid:" + rscId + "\' ></body></html>";
         URL resource = ResourceUtil.getResource("static/xkcoding.png");
-        mailService.sendResourceMail("237497819@qq.com", "这是一封带静态资源的邮件", content, resource.getPath(), rscId);
+        mailService.sendResourceMail("zhangjinzhi@shilupan.com", "这是一封带静态资源的邮件", content, resource.getPath(), rscId);
     }
 }

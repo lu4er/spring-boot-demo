@@ -61,5 +61,7 @@ public class UserServiceTest extends SpringBootDemoCacheEhcacheApplicationTests 
         userService.get(1L);
         // 删除，查看ehcache是否存在缓存数据
         userService.delete(1L);
+        userService.get(1L);
+
     }
 }

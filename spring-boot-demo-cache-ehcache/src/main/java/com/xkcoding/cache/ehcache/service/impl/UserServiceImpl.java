@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.xkcoding.cache.ehcache.entity.User;
 import com.xkcoding.cache.ehcache.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +27,7 @@ import java.util.Map;
  */
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
     /**
      * 模拟数据库
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
      * @param user 用户对象
      * @return 操作结果
      */
-    @CachePut(value = "user", key = "#user.id")
+    @CachePut(key = "#user.id")
     @Override
     public User saveOrUpdate(User user) {
         DATABASES.put(user.getId(), user);
@@ -61,7 +63,7 @@ public class UserServiceImpl implements UserService {
      * @param id key值
      * @return 返回结果
      */
-    @Cacheable(value = "user", key = "#id")
+    @Cacheable(key = "#id")
     @Override
     public User get(Long id) {
         // 我们假设从数据库读取
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param id key值
      */
-    @CacheEvict(value = "user", key = "#id")
+    @CacheEvict(key = "#id")
     @Override
     public void delete(Long id) {
         DATABASES.remove(id);
