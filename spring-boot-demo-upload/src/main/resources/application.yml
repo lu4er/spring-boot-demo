@@ -4,13 +4,13 @@ server:
     context-path: /demo
 qiniu:
   ## 此处填写你自己的七牛云 access key
-  accessKey: test
+  accessKey: ioNGrw3wA2u16kzwaaaBv73jOTeAEmovlEDll0Qn
   ## 此处填写你自己的七牛云 secret key
-  secretKey: test
+  secretKey: gmyHNP_GgCocsvn3MhNi5Z_yVHecL02yf6tlWlLd
   ## 此处填写你自己的七牛云 bucket
-  bucket: test
+  bucket: sloop-pub
   ## 此处填写你自己的七牛云 域名
-  prefix: test
+  prefix: sloop-pub.s3-cn-east-1.qiniucs.com
 spring:
   servlet:
     multipart:
