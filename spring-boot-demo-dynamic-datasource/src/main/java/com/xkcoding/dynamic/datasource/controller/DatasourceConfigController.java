@@ -33,7 +33,7 @@ public class DatasourceConfigController {
     }
 
     /**
-     * 保存
+     * 删除
      */
     @DeleteMapping("/config/{id}")
     @DefaultDatasource

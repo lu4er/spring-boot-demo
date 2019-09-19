@@ -20,6 +20,7 @@ public class SpringBootDemoMqKafkaApplicationTests {
     @Test
     public void testSend() {
         kafkaTemplate.send(KafkaConsts.TOPIC_TEST, "hello,kafka...");
+        kafkaTemplate.send(KafkaConsts.TOPIC_TEST,0,"key","value");
     }
 
 }
