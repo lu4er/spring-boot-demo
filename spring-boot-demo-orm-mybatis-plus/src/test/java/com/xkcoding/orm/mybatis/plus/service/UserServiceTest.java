@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xkcoding.orm.mybatis.plus.SpringBootDemoOrmMybatisPlusApplicationTests;
+import com.xkcoding.orm.mybatis.plus.entity.OrmUser;
 import com.xkcoding.orm.mybatis.plus.entity.User;
 import com.xkcoding.orm.mybatis.plus.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -141,6 +143,16 @@ public class UserServiceTest extends SpringBootDemoOrmMybatisPlusApplicationTest
         Assert.assertEquals(3, page.getSize());
         Assert.assertEquals(count, page.getTotal());
         log.debug("【page.getRecords()】= {}", page.getRecords());
+    }
+
+    @Resource
+    private IOrmUserService ormUserService;
+
+    @Test
+    public void test1(){
+        OrmUser ormUser = new OrmUser().setName("1").setPassword("1").setSalt("1").setEmail("1").setPhoneNumber("1").setStatus(1);
+        boolean save = ormUserService.save(ormUser);
+        System.out.println(save);
     }
 
     /**

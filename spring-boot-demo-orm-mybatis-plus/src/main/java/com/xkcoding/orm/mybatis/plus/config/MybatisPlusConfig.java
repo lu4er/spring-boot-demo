@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Properties;
+
 /**
  * <p>
  * mybatis-plus 配置
@@ -28,8 +30,20 @@ public class MybatisPlusConfig {
      * 性能分析拦截器，不建议生产使用
      */
     @Bean
-    public PerformanceInterceptor performanceInterceptor(){
-        return new PerformanceInterceptor();
+    public PerformanceInterceptor performanceInterceptor() {
+        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
+        // 写入日志文件
+        performanceInterceptor.setWriteInLog(true);
+        // sql格式化
+        performanceInterceptor.setFormat(true);
+        // sql执行超时时长 毫秒
+//        performanceInterceptor.setMaxTime(1L);
+        // 属性 可配置format、maxTime
+//        Properties properties = new Properties();
+//        properties.setProperty("format", "true");
+//        properties.setProperty("maxTime", "5");
+//        performanceInterceptor.setProperties(properties);
+        return performanceInterceptor;
     }
 
     /**
