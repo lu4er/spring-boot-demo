@@ -1,7 +1,7 @@
-package com.xkcoding.ratelimit.guava.controller;
+package com.xkcoding.ratelimit.redis.controller;
 
 import cn.hutool.core.lang.Dict;
-import com.xkcoding.ratelimit.guava.annotation.RateLimiter;
+import com.xkcoding.ratelimit.redis.annotation.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author yangkai.shen
- * @date Created in 2019/9/12 14:22
+ * @date Created in 2019/9/30 10:30
  */
 @Slf4j
 @RestController
 public class TestController {
 
-    @RateLimiter(value = 1.0, timeout = 300)
+    @RateLimiter(value = 5)
     @GetMapping("/test1")
     public Dict test1() {
         log.info("【test1】被执行了。。。。。");
@@ -31,7 +31,7 @@ public class TestController {
         return Dict.create().set("msg", "hello,world!").set("description", "我一直都在，卟离卟弃");
     }
 
-    @RateLimiter(value = 2.0, timeout = 300)
+    @RateLimiter(value = 2, key = "测试自定义key")
     @GetMapping("/test3")
     public Dict test3() {
         log.info("【test3】被执行了。。。。。");
